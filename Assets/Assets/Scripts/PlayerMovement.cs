@@ -15,15 +15,23 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Others")]
     public Transform orientation;
-    float horizontalInput;
-    float verticalInput;
-    Vector3 moveDirection;
+    public float horizontalInput;
+    public float verticalInput;
+    public Vector3 moveDirection;
     Rigidbody rb;
+
+    [Header("Inverting")]
+    public bool right = true;
+
+    [Header("Sprite")]
+    public SpriteRenderer character;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        //transform.Rotate(0f, 180f, 0f, Space.Self);
     }
 
     private void Update()
@@ -46,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+
+        
     }
 
     private void MyInput()
@@ -54,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Vertical");
     }
 
-    //Walking
+    //Moving
     private void MovePlayer()
     {
         moveDirection = orientation.forward * (-horizontalInput) + orientation.right * (-verticalInput);
