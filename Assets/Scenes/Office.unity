@@ -1156,7 +1156,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5177d9b59a6332a46af2be4d1bbb526e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.9481132, b: 0.9481132, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3335,8 +3335,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.9811321, g: 0.9024564, b: 0.9024564, a: 1}
-  m_Intensity: 0.64
+  m_Color: {r: 1, g: 0.8160377, b: 0.8160377, a: 1}
+  m_Intensity: 1.51
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
