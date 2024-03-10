@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
 
     public float EnemyHealth;
     public float EnemySpeed;
+    public float EnemyAttack;
     public bool isHunger, isWifi, isDepression, isSickness, isPower;
 
     // Start is called before the first frame update
@@ -23,12 +24,43 @@ public class Enemy : MonoBehaviour
         {
             bossPower();
         }
+        if (isSickness)
+        {
+            bossSickness();
+        }
+        if (isDepression)
+        {
+            enemyDepression();
+        }
+        if (isWifi)
+        {
+            enemyWifi();
+        }
+        if (isHunger)
+        {
+            enemyHunger();
+        }
     }
 
     void bossPower()
     {
-        //EnemyHealth = 20f;
-        //EnemySpeed = 9f;
+        //INSERT POWER
+    }
+    void bossSickness()
+    {
+        //INSERT POWER
+    }
+    void enemyDepression()
+    {
+        //INSERT POWER
+    }
+    void enemyWifi()
+    {
+        //INSERT POWER
+    }
+    void enemyHunger()
+    {
+        //INSERT POWER
     }
 
     private void OnTriggerEnter(Collider collision)

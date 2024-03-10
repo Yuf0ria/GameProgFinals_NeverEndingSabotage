@@ -7,6 +7,11 @@ using JetBrains.Annotations;
 
 public class OfficeScene : MonoBehaviour
 {
+    /// <summary>
+    /// THE OFFICE SCENE IS THE INTRO OF THE GAME.
+    /// YOU ARE FREE TO ROAM AROUND UNTIL YOU TALK TO THE MANAGER
+    /// </summary>
+
     [Header("Other Scripts")]
     public PlayerMovement pm;
 
@@ -21,7 +26,9 @@ public class OfficeScene : MonoBehaviour
     public GameObject managerTalkUI;
     public bool nearManager;
     public int TalkCount;
-    
+
+    [Header("The Button")]
+    public GameObject StartGame;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +38,7 @@ public class OfficeScene : MonoBehaviour
 
         thoughtsUI.SetActive(true);
         managerTalkUI.SetActive(false);
+        StartGame.SetActive(false);
         thoughts = "I'm here now. Where is the manager?";
     }
 
@@ -48,23 +56,26 @@ public class OfficeScene : MonoBehaviour
                 ManagerInteract(); //Start of Story
                 Debug.Log("Story Starting");
             }
-        } 
+        } else { pm.moveSpeed = 6; }
     }
 
+    /// <summary>
+    /// OBSERVING THE DIFFERENT NPCS. YOU CAN'T TALK TO THEM *YET*
+    /// </summary>
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.CompareTag("Manager"))
         {
             nearManager = true;
             if (TalkCount == 0)
-            { thoughts = "That's the manager. I should talk to him."; }
+            { thoughts = "That's the manager. I should talk to him. (L Click)"; }
         } else { nearManager = false; }
 
         if (collision.CompareTag("Kwindy"))
-        { thoughts = "That's Kwindy. "; }
+        { thoughts = "That's Kwindy. Happier as usual."; }
 
         if (collision.CompareTag("Chris"))
-        { thoughts = "That's Chris. "; }
+        { thoughts = "That's Chris. They sleep alot..."; }
 
         if (collision.CompareTag("Jenny"))
         { thoughts = "That's Jenny. "; } 
@@ -73,6 +84,10 @@ public class OfficeScene : MonoBehaviour
         { thoughts = "That's Llyod."; } 
     }
 
+    /// <summary>
+    /// TALKING TO THE MANAGER MEANS YOU'RE STARTING THE GAME
+    /// DIALOGUE TO BE CHANGED - WAITING FOR SEAN -
+    /// </summary>
     void ManagerInteract()
     {
         pm.moveSpeed = 0;
@@ -101,6 +116,13 @@ public class OfficeScene : MonoBehaviour
                 managerTalkUI.SetActive(false);
                 managerTalk = "";
                 thoughts = "Mhm.";
+                break;
+            case 5:
+                thoughtsUI.SetActive(false);
+                managerTalkUI.SetActive(false);
+                managerTalk = "";
+                thoughts = "";
+                StartGame.SetActive(true);
                 break;
         }
     }
