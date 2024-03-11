@@ -23,20 +23,22 @@ public class PlayerMovement : MonoBehaviour
     [Header("Inverting")]
     public bool right = true;
 
-    [Header("Sprite")]
+    [Header("Animation")]
+    public Animator MC;
     public SpriteRenderer character;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-
-        //transform.Rotate(0f, 180f, 0f, Space.Self);
     }
 
     private void Update()
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+
+        
+        //MC.SetFloat("Speed", horizontalInput);
 
         MyInput();
         SpeedControl();
@@ -54,12 +56,14 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
-
-        
     }
 
     private void MyInput()
     {
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        {
+            MC.SetBool("Moving", true);
+        } else { MC.SetBool("Moving", false); }
         verticalInput = Input.GetAxisRaw("Horizontal");
         horizontalInput = Input.GetAxisRaw("Vertical");
     }
@@ -68,7 +72,6 @@ public class PlayerMovement : MonoBehaviour
     private void MovePlayer()
     {
         moveDirection = orientation.forward * (-horizontalInput) + orientation.right * (-verticalInput);
-
         rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
     }
 

@@ -5,11 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class MainButtons : MonoBehaviour
 {
-    [Header("Other Scripts")]
+    /// <summary>
+    /// The Main UI. Will be used throughout 3 scenes.
+    /// </summary>
+
+    [Header("UI")] //The Main UI
     public GameObject buttonResume;
     public GameObject buttonBackMain;
     public GameObject buttonQuit;
     public GameObject buttonPause;
+    public GameObject Health;
+    public GameObject Mana;
 
     private bool isPaused = false;
 
@@ -34,6 +40,8 @@ public class MainButtons : MonoBehaviour
         buttonQuit.SetActive(true);
 
         buttonPause.SetActive(false);
+        Mana.SetActive(false);
+        Health.SetActive(false);
     }
 
     // Unpause the game
@@ -47,14 +55,17 @@ public class MainButtons : MonoBehaviour
         buttonQuit.SetActive(false);
 
         buttonPause.SetActive(true);
+        Mana.SetActive(true);
+        Health.SetActive(true);
     }
 
-    //Quit Button
+    // Quit Button
     public void Quit_Application_1()
     {
         Application.Quit();
     }
 
+    // Go Back To Main
     public void BackToMainMenu()
     {
         isPaused = false;
