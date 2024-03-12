@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -11,30 +12,58 @@ public class PlayerAttack : MonoBehaviour
     [Header("Player Attack")]
     public float DefaultAttack;
     public GameObject AttackCollision;
+    public bool Attacking;
+
+    [Header("Player Attack Speed")]
+    public float AttackSpeed;
+    public float CurrentAttackSpeed;
+    public float cooldown;
 
     [Header("Animation")]
     public Animator MC;
-    public SpriteRenderer character;
 
     // Start is called before the first frame update
     void Start()
     {
-        AttackCollision.SetActive(false);
-        DefaultAttack = 3f;
+        Attacking = false;
+
+        AttackCollision.SetActive(true);
+        DefaultAttack = 2f;
+        AttackSpeed = 0.5f;
+        CurrentAttackSpeed = AttackSpeed;
+        cooldown = 1f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (CurrentAttackSpeed >= AttackSpeed)
         {
-            Debug.Log("Atack");
-            MC.GetComponent<Animator>().Play("Attack");
-            AttackCollision.SetActive(true);
-        }
-        else
+            if (Input.GetMouseButtonDown(0))
+            {
+                AttackStart();
+            }
+        } else
         {
-            AttackCollision.SetActive(false);
+            AttackDone();
         }
+
+        if (Attacking == true)
+        {
+            Debug.Log("Swinging");
+        }
+    } 
+
+    private void AttackStart()
+    {
+        MC.GetComponent<Animator>().Play("Attack");
+        Attacking = true;
+        CurrentAttackSpeed = 0f;
+    }
+
+    private void AttackDone()
+    {
+        Attacking = false;
+        CurrentAttackSpeed += cooldown * Time.deltaTime;
     }
 }

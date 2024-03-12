@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.XR;
 
 public class Invert : MonoBehaviour
 {
@@ -19,5 +20,4 @@ public class Invert : MonoBehaviour
         transform.Rotate(0f, 180f, 0f);
         pm.right = !pm.right;
     }
-
 }

@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Enemy Health")]
     public float EnemyHealth;
+    public float EnemyCurrentHealth;
 
     [Header("Enemy Movement")]
     public float EnemySpeed;
@@ -85,6 +86,7 @@ public class Enemy : MonoBehaviour
         }
 
         //All
+        EnemyCurrentHealth = EnemyHealth;
         EnemyCurrentAttackSpeed = EnemyAttackSpeed;
         EnemyCurrentSkillTimer = EnemySkillTimer;
         EnemyCurrentSkillCD = EnemySkillCD;
@@ -126,25 +128,30 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    //Collision with Player and Devs
-    private void OnTriggerEnter(Collider collision)
+    //Colliding with player or devs
+    private void OnTriggerStay(Collider collision)
     {
-        if (collision.CompareTag("PlayerAttack"))
-        {
-            EnemyHealth = EnemyHealth - playerAttack.DefaultAttack;
-        }
-
         if (collision.CompareTag("Devs"))
         {
             Debug.Log("Enemy Is Here");
             Attack();
             EnemySpeed = 0f;
         }
+
+        if (collision.CompareTag("PlayerAttack")) //When enemies recieve owie ow ow ouch yeouch from the intern
+        {
+            Debug.Log("Enemy Near Player");
+            if (playerAttack.Attacking == true)
+            {
+                EnemyCurrentHealth = EnemyCurrentHealth - playerAttack.DefaultAttack;
+                Debug.Log("OWWWIEEEEE");
+            }
+        }
     }
 
     private void EnemyDead()
     {
-        if (EnemyHealth <= 0)
+        if (EnemyCurrentHealth <= 0)
         {
             Destroy(this.gameObject);
         }
