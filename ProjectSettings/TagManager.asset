@@ -3,16 +3,25 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Devs
+  - PlayerAttack
+  - EnemyAttack
+  - Kwindy
+  - Chris
+  - Jenny
+  - Llyod
+  - Manager
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PostProcessing
   - Water
   - UI
-  - 
-  - 
+  - FLOOR
+  - Particles
   - 
   - 
   - 
