@@ -19,6 +19,7 @@ public class OfficeScene : MonoBehaviour
     public TextMeshProUGUI player_thoughts;
     public string thoughts;
     public GameObject thoughtsUI;
+    public GameObject Chatbox;
 
     [Header("Story Progression")]
     public TextMeshProUGUI manager_talk;
@@ -126,6 +127,7 @@ public class OfficeScene : MonoBehaviour
                 managerTalk = "";
                 thoughts = "";
                 StartGame.SetActive(true);
+                Chatbox.SetActive(false);
                 break;
         }
     }

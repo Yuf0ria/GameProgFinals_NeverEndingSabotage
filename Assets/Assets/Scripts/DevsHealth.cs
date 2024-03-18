@@ -22,8 +22,6 @@ public class DevsHealth : MonoBehaviour
     public float CurrentdValue;
     public float restore;
 
-    [Header("Defense")]
-
     [Header("HealthUI")]
     public GameObject Health1;
     public GameObject Health2;
@@ -36,13 +34,20 @@ public class DevsHealth : MonoBehaviour
     public GameObject Health9;
     public GameObject Health10;
 
+    [Header("HealthCapUI")]
+    public GameObject HealthCap1;
+    public GameObject HealthCap2;
+    public GameObject HealthCap3;
+    public GameObject HealthCap4;
+    public GameObject HealthCap5;
+
     [Header("GameOverUI")]
     public GameObject GameOverText;
 
     // Start is called before the first frame update
     void Start()
     {
-        maxHealth = 10f;
+        maxHealth = 2f;
         dValue = 0.6f;
         currentHealth = maxHealth;
         dead = false;
@@ -61,6 +66,7 @@ public class DevsHealth : MonoBehaviour
             Regeneration();
         }
         HealthUI();
+        HealthCapUI();
         RestoreRegen();
     }
 
@@ -108,6 +114,8 @@ public class DevsHealth : MonoBehaviour
 
     public void HealthUI() //Jesus christ. There should be a convenient way of doing this but at 3:34PM on 11/03/2024 my brain is fried.
     {
+
+
         if (currentHealth >= 10f)
         {
             Health1.SetActive(true);
@@ -251,5 +259,53 @@ public class DevsHealth : MonoBehaviour
             Health9.SetActive(false);
             Health10.SetActive(false);
         }  
+    }
+
+    public void HealthCapUI() //18/03/2024 10:14PM I'm still doing the same thing.
+    {
+        if (maxHealth <= 2f)
+        {
+            HealthCap1.SetActive(true);
+            HealthCap2.SetActive(false);
+            HealthCap3.SetActive(false);
+            HealthCap4.SetActive(false);
+            HealthCap5.SetActive(false);
+        }
+        else
+        if (maxHealth <= 4f)
+        {
+            HealthCap1.SetActive(true);
+            HealthCap2.SetActive(true);
+            HealthCap3.SetActive(false);
+            HealthCap4.SetActive(false);
+            HealthCap5.SetActive(false);
+        }
+        else
+        if (maxHealth <= 6f)
+        {
+            HealthCap1.SetActive(true);
+            HealthCap2.SetActive(true);
+            HealthCap3.SetActive(true);
+            HealthCap4.SetActive(false);
+            HealthCap5.SetActive(false);
+        }
+        else
+        if (maxHealth <= 8f)
+        {
+            HealthCap1.SetActive(true);
+            HealthCap2.SetActive(true);
+            HealthCap3.SetActive(true);
+            HealthCap4.SetActive(true);
+            HealthCap5.SetActive(false);
+        }
+        else
+        if (maxHealth <= 10f)
+        {
+            HealthCap1.SetActive(true);
+            HealthCap2.SetActive(true);
+            HealthCap3.SetActive(true);
+            HealthCap4.SetActive(true);
+            HealthCap5.SetActive(true);
+        }
     }
 }

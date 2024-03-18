@@ -17,6 +17,10 @@ public class MainButtons : MonoBehaviour
     public GameObject Health;
     public GameObject Mana;
 
+    [Header("Wave")]
+    public GameObject Wave;
+    public GameObject WaveCounter;
+
     private bool isPaused = false;
 
     public void Start()
@@ -25,7 +29,11 @@ public class MainButtons : MonoBehaviour
         buttonBackMain.SetActive(false);
         buttonQuit.SetActive(false);
 
+        Wave.SetActive(true);
+        WaveCounter.SetActive(true);
         buttonPause.SetActive(true);
+        Mana.SetActive(true);
+        Health.SetActive(true);
     }
 
     // The Game Pause
@@ -38,7 +46,9 @@ public class MainButtons : MonoBehaviour
         buttonResume.SetActive(true);
         buttonBackMain.SetActive(true);
         buttonQuit.SetActive(true);
-
+        
+        Wave.SetActive(false);
+        WaveCounter.SetActive(false);
         buttonPause.SetActive(false);
         Mana.SetActive(false);
         Health.SetActive(false);
@@ -54,6 +64,8 @@ public class MainButtons : MonoBehaviour
         buttonBackMain.SetActive(false);
         buttonQuit.SetActive(false);
 
+        Wave.SetActive(true);
+        WaveCounter.SetActive(true);
         buttonPause.SetActive(true);
         Mana.SetActive(true);
         Health.SetActive(true);

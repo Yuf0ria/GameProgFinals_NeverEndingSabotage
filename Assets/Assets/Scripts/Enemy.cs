@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     [Header("Scripts")]
     public PlayerAttack playerAttack;
     public DevsHealth devHealth;
+    public WaveMechanic wm;
 
     [Header("Enemy Health")]
     public float EnemyHealth;
@@ -19,6 +20,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Enemy Movement")]
     public float EnemySpeed;
+    public float EnemyCurrentSpeed;
 
     [Header("Enemy Attack")]
     public float EnemyAttack;
@@ -50,38 +52,35 @@ public class Enemy : MonoBehaviour
             //Basic
             EnemyAttack = 5f; //Attack
             EnemyHealth = 20f; //Health
-            EnemySpeed = 7f; //Movement
+            EnemySpeed = 6f; //Movement
             EnemyAttackSpeed = 9f; //AttackSpeed
-
-            //Skill
-            EnemySkillTimer = 10f;
         }
         if (isSickness)
         {           
             EnemyAttack = 4f; //Attack
             EnemyHealth = 16f; //Health
-            EnemySpeed = 6f; //Movement
+            EnemySpeed = 3f; //Movement
             EnemyAttackSpeed = 9f;  //AttackSpeed
         }
         if (isDepression)
         {            
             EnemyAttack = 0.5f; //Attack           
             EnemyHealth = 13f; //Health            
-            EnemySpeed = 6f; //Movement
+            EnemySpeed = 5f; //Movement
             EnemyAttackSpeed = 1f; //AttackSpeed
         }
         if (isWifi)
         {           
             EnemyAttack = 2f; //Attack           
             EnemyHealth = 13f; //Health
-            EnemySpeed = 8f; //Movement
+            EnemySpeed = 7f; //Movement
             EnemyAttackSpeed = 5f; //AttackSpeed
         }
         if (isHunger)
         {
             EnemyAttack = 1f; //Attack
             EnemyHealth = 10f; //Health
-            EnemySpeed = 7f; //Movement
+            EnemySpeed = 6f; //Movement
             EnemyAttackSpeed = 5f; //AttackSpeed
         }
 
@@ -90,6 +89,7 @@ public class Enemy : MonoBehaviour
         EnemyCurrentAttackSpeed = EnemyAttackSpeed;
         EnemyCurrentSkillTimer = EnemySkillTimer;
         EnemyCurrentSkillCD = EnemySkillCD;
+        EnemyCurrentSpeed = EnemySpeed;
 
         //Cooldowns
         EnemySkillCD = 10f;
@@ -102,17 +102,22 @@ public class Enemy : MonoBehaviour
         EnemyDead();
     }
 
+    public void EnemyUpgrade() //Level up HP
+    {
+        EnemyCurrentHealth = EnemyHealth * 1.2f;
+    }
+
     //Attack
     private void Attack() //Honestly my proudest line of code idk
     {
         if (EnemyCurrentAttackSpeed >= EnemyAttackSpeed) //If Cooldown Over
         {
             //Skills/Debuffs
-            if (isPower || isWifi)
+            if (isPower || isWifi) // Stopping HP Restoration
             {
                 devHealth.CurrentdValue = 0f;
             }
-            if (isSickness || isDepression)
+            if (isSickness || isDepression) // Decreasing HP Restoration
             {
                 devHealth.CurrentdValue = 0.2f;
             }
@@ -128,24 +133,25 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    //Colliding with player or devs
+    //Colliding with devs
     private void OnTriggerStay(Collider collision)
     {
         if (collision.CompareTag("Devs"))
         {
-            Debug.Log("Enemy Is Here");
+            //Debug.Log("Enemy Is Here");
             Attack();
-            EnemySpeed = 0f;
+            EnemyCurrentSpeed = 0f;
         }
+    }
 
+    //Colliding with player
+    private void OnTriggerEnter(Collider collision)
+    {
         if (collision.CompareTag("PlayerAttack")) //When enemies recieve owie ow ow ouch yeouch from the intern
         {
-            Debug.Log("Enemy Near Player");
-            if (playerAttack.Attacking == true)
-            {
-                EnemyCurrentHealth = EnemyCurrentHealth - playerAttack.DefaultAttack;
-                Debug.Log("OWWWIEEEEE");
-            }
+            EnemyCurrentHealth = EnemyCurrentHealth - playerAttack.MaxAttack;
+            Destroy(collision.gameObject);
+            Debug.Log("OWWWIEEEEE");
         }
     }
 
