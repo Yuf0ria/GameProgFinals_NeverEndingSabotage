@@ -30,6 +30,7 @@ public class WaveMechanic : MonoBehaviour
         if (mins >= 2) //Next Wave
         {
             NextWave();
+            wavecount_update++;
         }
 
         if (seconds >= 3) //Next Wave Announcement
@@ -54,7 +55,6 @@ public class WaveMechanic : MonoBehaviour
     public void NextWave()
     {
         //Time
-        wavecount_update++;
         WaveAnnouncement.SetActive(true);
         mins = 0;
     }

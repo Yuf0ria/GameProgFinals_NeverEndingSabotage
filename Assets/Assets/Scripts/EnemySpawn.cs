@@ -6,10 +6,15 @@ public class EnemySpawn : MonoBehaviour
 {
     [Header("Scripts")]
     public EnemyCount ec;
+    public WaveMechanic wm;
 
     [Header("Enemy Randomizer")]
     public GameObject[] RandomEnemy;
     public GameObject EnemyPicker;
+
+    [Header("Boss Randomizer")]
+    public GameObject[] RandomBoss;
+    public GameObject BossPicker;
 
     [Header("Spawn Randomizer")]
     public Transform[] RandomSpawn;
@@ -17,43 +22,65 @@ public class EnemySpawn : MonoBehaviour
 
     [Header("Time")]
     public float tick;
-    public float seconds;
-    public float wave;
+    public float Eseconds;
+    public float Bseconds;
+    public float Eevery;
+    public float Bevery;
 
     // Start is called before the first frame update
     void Start()
     {
         tick = 1f;
-        wave = 3f;
+        Eevery = 3f;
+        Bevery = 30f;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (ec.EnemyC >= 60) //This should be 30 but the OnTriggerEnter keeps on- yeah.
+        if (ec.EnemyC <= 60) //This should be 30 but the OnTriggerEnter keeps on- yeah.
         {
-            CalcTime();
-            EnemyR();
-            SpawnR();
+            EnemyCalc();
+            BossCalc();
+            //EnemyR();
+            //BossR();
+            //SpawnR();
         }
-
-        
     }
 
-    public void CalcTime() // Used to calculate sec, min and hours
+    public void EnemyCalc() // Enemy
     {
-        seconds += Time.fixedDeltaTime * tick; // multiply time between fixed update by tick
+        Eseconds += Time.fixedDeltaTime * tick; // multiply time between fixed update by tick
 
-        if (seconds >= wave) // 60 sec = 1 min
+        if (Eseconds >= Eevery) 
         {
-            seconds = 0;
-            Debug.Log("Enemy Spawn!");
+            //Instantiate(EnemyPicker, SpawnPicker);
+
+            Eseconds = 0;
+        }
+    }
+
+    public void BossCalc() // Boss
+    {
+        Bseconds += Time.fixedDeltaTime * tick; // multiply time between fixed update by tick
+
+        if (Bseconds >= Bevery)
+        {
+            BossPicker = RandomBoss[Random.Range(0, RandomBoss.Length)];
+            SpawnPicker = RandomSpawn[Random.Range(0, RandomEnemy.Length)];
+            Instantiate(BossPicker, SpawnPicker);
+
+            Bseconds = 0;
         }
     }
 
     private void EnemyR()
     {
         EnemyPicker = RandomEnemy[Random.Range(0, RandomEnemy.Length)];
+    }
+    private void BossR()
+    {
+        BossPicker = RandomBoss[Random.Range(0, RandomBoss.Length)];
     }
 
     private void SpawnR()

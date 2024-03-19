@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour
     public PlayerAttack playerAttack;
     public DevsHealth devHealth;
     public WaveMechanic wm;
+    public EXPManager exp;
+    public EnemyCount ec;
 
     [Header("Enemy Health")]
     public float EnemyHealth;
@@ -36,6 +38,9 @@ public class Enemy : MonoBehaviour
     public float EnemySkillCD;
     public float EnemyCurrentSkillCD;
 
+    [Header("EXP")]
+    public int EXPDrop;
+
     [Header("Enemy Identity")]
     public bool isHunger;
     public bool isWifi;
@@ -43,9 +48,16 @@ public class Enemy : MonoBehaviour
     public bool isSickness;
     public bool isPower;
 
+    [Header("Animation")]
+    public Animator EnemyAnimation;
+
+    [Header("Enemy Wave Mechanic")]
+    public int wave; //It's a getting closer-
+
     // Start is called before the first frame update
     void Start()
     {
+        wave = 1;
 
         if (isPower)
         {
@@ -54,6 +66,7 @@ public class Enemy : MonoBehaviour
             EnemyHealth = 20f; //Health
             EnemySpeed = 6f; //Movement
             EnemyAttackSpeed = 9f; //AttackSpeed
+            EXPDrop = 25; //EXP DROP
         }
         if (isSickness)
         {           
@@ -61,6 +74,7 @@ public class Enemy : MonoBehaviour
             EnemyHealth = 16f; //Health
             EnemySpeed = 3f; //Movement
             EnemyAttackSpeed = 9f;  //AttackSpeed
+            EXPDrop = 20; //EXP DROP
         }
         if (isDepression)
         {            
@@ -68,6 +82,7 @@ public class Enemy : MonoBehaviour
             EnemyHealth = 13f; //Health            
             EnemySpeed = 5f; //Movement
             EnemyAttackSpeed = 1f; //AttackSpeed
+            EXPDrop = 15; //EXP DROP
         }
         if (isWifi)
         {           
@@ -75,6 +90,7 @@ public class Enemy : MonoBehaviour
             EnemyHealth = 13f; //Health
             EnemySpeed = 7f; //Movement
             EnemyAttackSpeed = 5f; //AttackSpeed
+            EXPDrop = 10; //EXP DROP
         }
         if (isHunger)
         {
@@ -82,6 +98,7 @@ public class Enemy : MonoBehaviour
             EnemyHealth = 10f; //Health
             EnemySpeed = 6f; //Movement
             EnemyAttackSpeed = 5f; //AttackSpeed
+            EXPDrop = 5; //EXP DROP
         }
 
         //All
@@ -94,21 +111,29 @@ public class Enemy : MonoBehaviour
         //Cooldowns
         EnemySkillCD = 10f;
         cooldown = 1f;
+
+        //Animation Component
+        EnemyAnimation = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
         EnemyDead();
+        EnemyUpgrade();
     }
 
     public void EnemyUpgrade() //Level up HP
     {
-        EnemyCurrentHealth = EnemyHealth * 1.2f;
+        if (wm.wavecount_update == wave)
+        {
+            EXPDrop = EXPDrop + 5;
+            EnemyHealth = EnemyHealth * (1.5f);
+            wave++;
+        }
     }
-
-    //Attack
-    private void Attack() //Honestly my proudest line of code idk
+    
+    private void Attack() //Attack
     {
         if (EnemyCurrentAttackSpeed >= EnemyAttackSpeed) //If Cooldown Over
         {
@@ -123,7 +148,7 @@ public class Enemy : MonoBehaviour
             }
 
             //Actual Attack
-            devHealth.currentHealth = devHealth.currentHealth - EnemyAttack;
+            EnemyAnimation.GetComponent<Animator>().Play("Attack");
             EnemyCurrentAttackSpeed = 0f;
             Debug.Log("EnemyAttack");
 
@@ -133,32 +158,35 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    //Colliding with devs
-    private void OnTriggerStay(Collider collision)
+    public void Attackblow()
+    {
+        devHealth.currentHealth = devHealth.currentHealth - EnemyAttack;
+    }
+
+    private void OnTriggerStay(Collider collision) //Colliding with devs
     {
         if (collision.CompareTag("Devs"))
         {
-            //Debug.Log("Enemy Is Here");
             Attack();
             EnemyCurrentSpeed = 0f;
         }
     }
-
-    //Colliding with player
-    private void OnTriggerEnter(Collider collision)
+    
+    private void OnTriggerEnter(Collider collision) //Colliding with player
     {
         if (collision.CompareTag("PlayerAttack")) //When enemies recieve owie ow ow ouch yeouch from the intern
         {
             EnemyCurrentHealth = EnemyCurrentHealth - playerAttack.MaxAttack;
             Destroy(collision.gameObject);
-            Debug.Log("OWWWIEEEEE");
         }
     }
 
-    private void EnemyDead()
+    private void EnemyDead() //When you're dead.
     {
         if (EnemyCurrentHealth <= 0)
         {
+            ec.EnemyC = ec.EnemyC - 2;
+            exp.AddExperience(EXPDrop);
             Destroy(this.gameObject);
         }
     }

@@ -72,7 +72,7 @@ public class PlayerAttack : MonoBehaviour
         MaxAttack = DefaultAttack;
 
         //Mana
-        maxMana = 10f;
+        maxMana = 2f;
         dValueR = 1f;
         dValueD = 1f;
         currentMana = maxMana;
@@ -87,36 +87,26 @@ public class PlayerAttack : MonoBehaviour
             MC.GetComponent<Animator>().Play("Attack");
         }
 
-        if (Input.GetMouseButtonDown(1)) //UsingMana
+        if (Input.GetMouseButtonDown(1)) //Using Mana
         {
             if (currentMana >= maxMana)
             {
                 Skill = true;
-                Debug.Log("Skill triggered");
             }
         }
 
-        //Mana
-        if (Skill)
+        //When using Skill
+        if (Skill)//Greatly Increase Attack
         {
-            MaxAttack = DefaultAttack * 1.3f;
-            pm.MaxmoveSpeed = pm.moveSpeed * 1.3f;
-            dh.CurrentdValue = dh.dValue * 1.3f;
+            MaxAttack = DefaultAttack * 1.5f;
+            pm.MaxmoveSpeed = pm.moveSpeed * 1.5f;
+            dh.CurrentdValue = dh.dValue * 1.5f;
 
-        } else
+        } else//Go back to normal
         {
             MaxAttack = DefaultAttack;
             pm.MaxmoveSpeed = pm.moveSpeed;
             dh.CurrentdValue = dh.dValue;
-        }
-
-        if (Drain)
-        {
-            DrainMana();
-        }
-        if (Restore)
-        {
-            RestoreMana();
         }
 
         Mana();
@@ -126,6 +116,15 @@ public class PlayerAttack : MonoBehaviour
 
     void Mana() //Mana functions
     {
+        if (Drain)
+        {
+            DrainMana();
+        }
+        if (Restore)
+        {
+            RestoreMana();
+        }
+
         if (Skill == true)
         {
             Drain = true;

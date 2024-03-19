@@ -105,10 +105,9 @@ public class DevsHealth : MonoBehaviour
             mb.buttonBackMain.SetActive(true);
             mb.buttonQuit.SetActive(true);
             GameOverText.SetActive(true);
+            mb.BlackFade.SetActive(true);
 
-            mb.buttonPause.SetActive(false);
-            mb.Mana.SetActive(false);
-            mb.Health.SetActive(false);
+            mb.UI.SetActive(false);
         }
     }
 
