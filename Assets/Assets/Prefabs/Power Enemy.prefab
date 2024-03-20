@@ -316,8 +316,10 @@ MonoBehaviour:
   isSickness: 0
   isPower: 1
   EnemyAnimation: {fileID: 0}
+  Flip: {fileID: 0}
   wave: 0
   health: {fileID: 1347195848254617176}
+  HasUpgraded: 0
 --- !u!95 &2036972851495552065
 Animator:
   serializedVersion: 5

@@ -52,11 +52,17 @@ public class Enemy : MonoBehaviour
     [Header("Animation")]
     public Animator EnemyAnimation;
 
+    [Header("Sprite")]
+    public SpriteRenderer Flip;
+
     [Header("Enemy Wave Mechanic")]
     public int wave; //It's a getting closer-
 
     [Header("UI")]
     public TextMeshPro health;
+
+    [Header("Enemy Buff")]
+    public bool HasUpgraded;
 
     // Start is called before the first frame update
     void Start()
@@ -70,11 +76,12 @@ public class Enemy : MonoBehaviour
         health = GetComponentInChildren<TextMeshPro>();
 
         wave = 1;
+        HasUpgraded = false;
 
         if (isPower)
         {
             //Basic
-            EnemyAttack = 5f; //Attack
+            EnemyAttack = 2f; //Attack
             EnemyHealth = 20f; //Health
             EnemySpeed = 6f; //Movement
             EnemyAttackSpeed = 9f; //AttackSpeed
@@ -82,7 +89,7 @@ public class Enemy : MonoBehaviour
         }
         if (isSickness)
         {           
-            EnemyAttack = 4f; //Attack
+            EnemyAttack = 2f; //Attack
             EnemyHealth = 16f; //Health
             EnemySpeed = 3f; //Movement
             EnemyAttackSpeed = 9f;  //AttackSpeed
@@ -90,17 +97,17 @@ public class Enemy : MonoBehaviour
         }
         if (isDepression)
         {            
-            EnemyAttack = 0.5f; //Attack           
+            EnemyAttack = 1f; //Attack           
             EnemyHealth = 13f; //Health            
-            EnemySpeed = 5f; //Movement
+            EnemySpeed = 3f; //Movement
             EnemyAttackSpeed = 1f; //AttackSpeed
             EXPDrop = 15; //EXP DROP
         }
         if (isWifi)
         {           
-            EnemyAttack = 2f; //Attack           
+            EnemyAttack = 1.5f; //Attack           
             EnemyHealth = 13f; //Health
-            EnemySpeed = 7f; //Movement
+            EnemySpeed = 6f; //Movement
             EnemyAttackSpeed = 5f; //AttackSpeed
             EXPDrop = 10; //EXP DROP
         }
@@ -108,7 +115,7 @@ public class Enemy : MonoBehaviour
         {
             EnemyAttack = 1f; //Attack
             EnemyHealth = 10f; //Health
-            EnemySpeed = 6f; //Movement
+            EnemySpeed = 7f; //Movement
             EnemyAttackSpeed = 5f; //AttackSpeed
             EXPDrop = 5; //EXP DROP
         }
@@ -125,26 +132,36 @@ public class Enemy : MonoBehaviour
         cooldown = 1f;
 
         //Animation Component
-        EnemyAnimation = GetComponent<Animator>();
+        EnemyAnimation = gameObject.GetComponent<Animator>();
+        Flip = gameObject.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
         EnemyDead();
-        EnemyUpgrade();
 
         health.text = EnemyCurrentHealth.ToString();
+
+        if (HasUpgraded == false && wm.wavecount_update > 0)
+        {
+            EnemyHealth = EnemyHealth * (1.3f * wm.wavecount_update);
+            EXPDrop = EXPDrop + (10 * wm.wavecount_update);
+            EnemyCurrentHealth = EnemyHealth;
+
+            HasUpgraded = true;
+        }
+
     }
 
     public void EnemyUpgrade() //Level up HP
     {
-        if (wm.wavecount_update == wave)
-        {
-            EXPDrop = EXPDrop + 5;
-            EnemyHealth = EnemyHealth * (1.5f);
-            wave++;
-        }
+        //if (wm.wavecount_update == wave)
+        //{
+        //    EXPDrop = EXPDrop + 5;
+        //    EnemyHealth = EnemyHealth * (1.5f);
+        //    wave++;
+        //}
     }
     
     private void Attack() //Attack
@@ -183,6 +200,10 @@ public class Enemy : MonoBehaviour
         {
             Attack();
             EnemyCurrentSpeed = 0f;
+        }
+        if (collision.CompareTag("FLIP"))
+        {
+            Flip.flipX = true;
         }
     }
     

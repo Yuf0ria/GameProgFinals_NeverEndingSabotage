@@ -24,8 +24,8 @@ public class EnemySpawn : MonoBehaviour
     void Start()
     {
         tick = 1f;
-        Eevery = 3f;
-        Bevery = 30f;
+        Eevery = 5f;
+        Bevery = 60f;
     }
 
     // Update is called once per frame
@@ -35,9 +35,6 @@ public class EnemySpawn : MonoBehaviour
         {
             EnemyCalc();
             BossCalc();
-            //EnemyR();
-            //BossR();
-            //SpawnR();
         }
     }
 
@@ -47,7 +44,10 @@ public class EnemySpawn : MonoBehaviour
 
         if (Eseconds >= Eevery) 
         {
+            int E = Random.Range(0, RandomEnemy.Length);
+            int Se = Random.Range(0, RandomSpawn.Length);
 
+            Instantiate(RandomEnemy[E], RandomSpawn[Se]);
 
             Eseconds = 0;
         }

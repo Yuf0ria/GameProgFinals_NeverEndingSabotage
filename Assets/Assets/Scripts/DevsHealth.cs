@@ -47,7 +47,7 @@ public class DevsHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maxHealth = 2f;
+        maxHealth = 4f;
         dValue = 0.6f;
         currentHealth = maxHealth;
         dead = false;
