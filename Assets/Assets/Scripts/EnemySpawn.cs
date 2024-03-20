@@ -8,17 +8,10 @@ public class EnemySpawn : MonoBehaviour
     public EnemyCount ec;
     public WaveMechanic wm;
 
-    [Header("Enemy Randomizer")]
+    [Header("Randomizer")]
     public GameObject[] RandomEnemy;
-    public GameObject EnemyPicker;
-
-    [Header("Boss Randomizer")]
     public GameObject[] RandomBoss;
-    public GameObject BossPicker;
-
-    [Header("Spawn Randomizer")]
     public Transform[] RandomSpawn;
-    public Transform SpawnPicker;
 
     [Header("Time")]
     public float tick;
@@ -54,7 +47,7 @@ public class EnemySpawn : MonoBehaviour
 
         if (Eseconds >= Eevery) 
         {
-            //Instantiate(EnemyPicker, SpawnPicker);
+
 
             Eseconds = 0;
         }
@@ -66,25 +59,12 @@ public class EnemySpawn : MonoBehaviour
 
         if (Bseconds >= Bevery)
         {
-            BossPicker = RandomBoss[Random.Range(0, RandomBoss.Length)];
-            SpawnPicker = RandomSpawn[Random.Range(0, RandomEnemy.Length)];
-            Instantiate(BossPicker, SpawnPicker);
+            int B = Random.Range(0, RandomBoss.Length);
+            int Sb = Random.Range(0, RandomSpawn.Length);
+
+            Instantiate(RandomBoss[B], RandomSpawn[Sb]);
 
             Bseconds = 0;
         }
-    }
-
-    private void EnemyR()
-    {
-        EnemyPicker = RandomEnemy[Random.Range(0, RandomEnemy.Length)];
-    }
-    private void BossR()
-    {
-        BossPicker = RandomBoss[Random.Range(0, RandomBoss.Length)];
-    }
-
-    private void SpawnR()
-    {
-        SpawnPicker = RandomSpawn[Random.Range(0, RandomEnemy.Length)];
     }
 }

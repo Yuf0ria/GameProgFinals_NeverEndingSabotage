@@ -7,14 +7,25 @@ public class EnemyMovement : MonoBehaviour
 {
     [Header("Scripts")]
     public Enemy enemy;
+    public DevsHealth devs;
 
     [Header("Movement")]
     public Vector3 currentEulerAngles;
-    public Transform Devs;
+    public Transform Goal;
+    public GameObject Devs;
+
+
+    private void Start()
+    {
+        //Getting some stuff
+        enemy = GetComponent<Enemy>();
+        Devs = GameObject.FindWithTag("Devs");
+        Goal = Devs.GetComponent<Transform>();
+    }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.MoveTowards(this.transform.position, Devs.position, enemy.EnemyCurrentSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(this.transform.position, Goal.position, enemy.EnemyCurrentSpeed * Time.deltaTime);
     }
 }

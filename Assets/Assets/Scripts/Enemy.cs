@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class Enemy : MonoBehaviour
     /// ENEMIES. ALL ENEMIES AND BOSSES
     /// </summary>
 
-    [Header("Scripts")]
+    [Header("Scripts")] ///
     public PlayerAttack playerAttack;
     public DevsHealth devHealth;
     public WaveMechanic wm;
@@ -54,9 +55,20 @@ public class Enemy : MonoBehaviour
     [Header("Enemy Wave Mechanic")]
     public int wave; //It's a getting closer-
 
+    [Header("UI")]
+    public TextMeshPro health;
+
     // Start is called before the first frame update
     void Start()
     {
+        playerAttack = FindObjectOfType<PlayerAttack>();
+        devHealth = FindObjectOfType<DevsHealth>();
+        wm = FindObjectOfType<WaveMechanic>();
+        exp = FindObjectOfType<EXPManager>();
+        ec = FindObjectOfType<EnemyCount>();
+
+        health = GetComponentInChildren<TextMeshPro>();
+
         wave = 1;
 
         if (isPower)
@@ -121,6 +133,8 @@ public class Enemy : MonoBehaviour
     {
         EnemyDead();
         EnemyUpgrade();
+
+        health.text = EnemyCurrentHealth.ToString();
     }
 
     public void EnemyUpgrade() //Level up HP
