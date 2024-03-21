@@ -19,13 +19,14 @@ public class OfficeScene : MonoBehaviour
     public TextMeshProUGUI player_thoughts;
     public string thoughts;
     public GameObject thoughtsUI;
+    public GameObject Chatbox;
 
     [Header("Story Progression")]
     public TextMeshProUGUI manager_talk;
     public string managerTalk;
     public GameObject managerTalkUI;
     public bool nearManager;
-    public int TalkCount;
+    public int MTalkCount;
 
     [Header("The Button")]
     public GameObject StartGame;
@@ -36,7 +37,7 @@ public class OfficeScene : MonoBehaviour
 
     void Start()
     {
-        TalkCount = 0;
+        MTalkCount = 0;
         nearManager = false;
 
         thoughtsUI.SetActive(true);
@@ -58,7 +59,7 @@ public class OfficeScene : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                TalkCount++;
+                MTalkCount++;
                 ManagerInteract(); //Start of Story
                 Debug.Log("Story Starting");
             }
@@ -73,8 +74,10 @@ public class OfficeScene : MonoBehaviour
         if (collision.CompareTag("Manager"))
         {
             nearManager = true;
-            if (TalkCount == 0)
-            { thoughts = "That's the manager. I should talk to him."; }
+            if (MTalkCount == 0)
+            { 
+                thoughts = "That's the manager. I should talk to him."; 
+            }
         } else { nearManager = false; }
 
         if (collision.CompareTag("Kwindy"))
@@ -93,39 +96,94 @@ public class OfficeScene : MonoBehaviour
     //Starting the game by starting the dialogue
     void ManagerInteract()
     {
-        pm.moveSpeed = 0;
-        switch (TalkCount)
+        pm.MaxmoveSpeed = 0;
+        switch (MTalkCount)
         {
             case 1:
                 thoughtsUI.SetActive(false);
                 managerTalkUI.SetActive(true);
-                managerTalk = "Ah, you're here.";
+                managerTalk = "Thanks for coming in all of a sudden.";
                 thoughts = "";
                 break;
             case 2:
                 thoughtsUI.SetActive(true);
                 managerTalkUI.SetActive(false);
                 managerTalk = "";
-                thoughts = "Yeah.";
+                thoughts = "What's the problem?";
                 break;
             case 3:
                 thoughtsUI.SetActive(false);
                 managerTalkUI.SetActive(true);
-                managerTalk = "Are you ready?";
+                managerTalk = "It's that time of the year for the company again... The deadline is coming for our most recent project and... 'They' are coming...";
                 thoughts = "";
                 break;
             case 4:
                 thoughtsUI.SetActive(true);
                 managerTalkUI.SetActive(false);
                 managerTalk = "";
-                thoughts = "Mhm.";
+                thoughts = "They? Who's 'They?";
                 break;
             case 5:
+                thoughtsUI.SetActive(false);
+                managerTalkUI.SetActive(true);
+                managerTalk = "The very banes of our developers, Nico. Depression, Power Outages, Internet Cutoffs. You name it.";
+                thoughts = "";
+                break;
+            case 6:
+                thoughtsUI.SetActive(true);
+                managerTalkUI.SetActive(false);
+                managerTalk = "";
+                thoughts = "And? Don't we have... Ways to handle all that?";
+                break;
+            case 7:
+                thoughtsUI.SetActive(false);
+                managerTalkUI.SetActive(true);
+                managerTalk = "You don't understand, Nico. I'm not talking about them in a conceptual sense. I mean they are literally going to attack our devs.";
+                thoughts = "";
+                break;
+            case 8:
+                thoughtsUI.SetActive(true);
+                managerTalkUI.SetActive(false);
+                managerTalk = "";
+                thoughts = "What?! You have got to be kidding me. It's all a joke, right?";
+                break;
+            case 9:
+                thoughtsUI.SetActive(false);
+                managerTalkUI.SetActive(true);
+                managerTalk = "Oh I wish I was too. If I was joking, you could tell.";
+                thoughts = "";
+                break;
+            case 10:
+                thoughtsUI.SetActive(true);
+                managerTalkUI.SetActive(false);
+                managerTalk = "";
+                thoughts = "So what am I supposed to do?";
+                break;
+            case 11:
+                thoughtsUI.SetActive(false);
+                managerTalkUI.SetActive(true);
+                managerTalk = "Take this bat. [LEFT CLICK] to hit them. If you need a boost from us, [RIGHT CLICK] to call us.";
+                thoughts = "";
+                break;
+            case 12:
+                thoughtsUI.SetActive(true);
+                managerTalkUI.SetActive(false);
+                managerTalk = "";
+                thoughts = "Sir... This is just a normal bat...";
+                break;
+            case 13:
+                thoughtsUI.SetActive(false);
+                managerTalkUI.SetActive(true);
+                managerTalk = "It may look like that, but once you swing it, you'll feel the difference. Now go! Fight! Protect the other devs so we can make it to the deadline!";
+                thoughts = "";
+                break;
+            case 14:
                 thoughtsUI.SetActive(false);
                 managerTalkUI.SetActive(false);
                 managerTalk = "";
                 thoughts = "";
                 StartGame.SetActive(true);
+                Chatbox.SetActive(false);
                 break;
         }
     }

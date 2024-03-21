@@ -10,22 +10,28 @@ public class MainButtons : MonoBehaviour
     /// </summary>
 
     [Header("UI")] //The Main UI
+    public GameObject UI;
     public GameObject buttonResume;
     public GameObject buttonBackMain;
     public GameObject buttonQuit;
-    public GameObject buttonPause;
-    public GameObject Health;
-    public GameObject Mana;
+    public GameObject BlackFade;
 
-    private bool isPaused = false;
+    [Header("Wave")]
+    public GameObject Wave;
+    public GameObject WaveCounter;
+
+    public bool isPaused = false;
 
     public void Start()
     {
         buttonResume.SetActive(false);
         buttonBackMain.SetActive(false);
         buttonQuit.SetActive(false);
+        BlackFade.SetActive(false);
 
-        buttonPause.SetActive(true);
+        Wave.SetActive(true);
+        WaveCounter.SetActive(true);
+        UI.SetActive(true);
     }
 
     // The Game Pause
@@ -38,10 +44,11 @@ public class MainButtons : MonoBehaviour
         buttonResume.SetActive(true);
         buttonBackMain.SetActive(true);
         buttonQuit.SetActive(true);
+        BlackFade.SetActive(true);
 
-        buttonPause.SetActive(false);
-        Mana.SetActive(false);
-        Health.SetActive(false);
+        Wave.SetActive(false);
+        WaveCounter.SetActive(false);
+        UI.SetActive(false);
     }
 
     // Unpause the game
@@ -53,10 +60,11 @@ public class MainButtons : MonoBehaviour
         buttonResume.SetActive(false);
         buttonBackMain.SetActive(false);
         buttonQuit.SetActive(false);
+        BlackFade.SetActive(false);
 
-        buttonPause.SetActive(true);
-        Mana.SetActive(true);
-        Health.SetActive(true);
+        Wave.SetActive(true);
+        WaveCounter.SetActive(true);
+        UI.SetActive(true);
     }
 
     // Quit Button

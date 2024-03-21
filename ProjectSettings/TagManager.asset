@@ -13,6 +13,8 @@ TagManager:
   - Jenny
   - Llyod
   - Manager
+  - HP
+  - FLIP
   layers:
   - Default
   - TransparentFX
